@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#ff4d8d">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fitness Game</title>
+
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #fff0f6, #fff9db);
+      color: #4a044e;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      background: linear-gradient(90deg, #ff4d8d, #facc15);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+    }
+
+    .stats {
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(10px);
+      padding: 15px;
+      border-radius: 15px;
+      text-align: center;
+      margin-bottom: 20px;
+      box-shadow: 0 0 20px rgba(255, 77, 141, 0.3);
+    }
+
+    .day {
+      background: rgba(255, 255, 255, 0.7);
+      padding: 12px;
+      margin-bottom: 10px;
+      border-radius: 12px;
+      transition: 0.2s;
+    }
+
+    .day:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 10px rgba(250, 204, 21, 0.6);
+    }
+
+    label {
+      display: block;
+      margin: 6px 0;
+      cursor: pointer;
+    }
+
+    input[type="checkbox"] {
+      accent-color: #ff4d8d;
+      margin-right: 8px;
+    }
+
+    .xp-bar {
+      height: 20px;
+      background: #ffe4e6;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .xp-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #ff4d8d, #facc15);
+      text-align: center;
+      font-size: 12px;
+      transition: 0.3s;
+      color: #4a044e;
+      font-weight: bold;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(90deg, #ff4d8d, #facc15);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(255, 77, 141, 0.4);
+    }
+
+    .levelup {
+      text-align: center;
+      color: #ff4d8d;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>✨ Fitness Game ✨</h1>
+
+    <div class="stats">
+      <div>Livello: <span id="level">1</span></div>
+      <div>XP: <span id="xp">0</span></div>
+      <div>Streak 🔥: <span id="streak">0</span></div>
+
+      <div class="xp-bar">
+        <div class="xp-fill" id="xpFill">0%</div>
+      </div>
+
+      <div class="levelup" id="levelupMsg"></div>
+    </div>
+
+    <div id="tracker"></div>
+
+    <button onclick="resetAll()">Reset</button>
+  </div>
+
+  <script>
+    const days = ["Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom"];
+
+    const tasks = [
+      { name: "8000+ passi", xp: 10 },
+      { name: "Allenamento", xp: 20 },
+      { name: "Mangiare pulito", xp: 15 },
+      { name: "No snack inutili", xp: 10 },
+      { name: "Acqua", xp: 5 },
+      { name: "Dormire 7h", xp: 10 }
+    ];
+
+    let xp = parseInt(localStorage.getItem("xp")) || 0;
+    let level = parseInt(localStorage.getItem("level")) || 1;
+    let streak = parseInt(localStorage.getItem("streak")) || 0;
+
+    const tracker = document.getElementById("tracker");
+
+    function xpToNextLevel() {
+      return level * 100;
+    }
+
+    function renderStats() {
+      document.getElementById("xp").textContent = xp;
+      document.getElementById("level").textContent = level;
+      document.getElementById("streak").textContent = streak;
+
+      let percent = Math.min((xp / xpToNextLevel()) * 100, 100);
+      const fill = document.getElementById("xpFill");
+      fill.style.width = percent + "%";
+      fill.textContent = Math.floor(percent) + "%";
+    }
+
+    function gainXP(amount) {
+      xp += amount;
+
+      if (xp >= xpToNextLevel()) {
+        xp -= xpToNextLevel();
+        level++;
+        document.getElementById("levelupMsg").textContent = "🌸 LEVEL UP! 🌟";
+        setTimeout(() => {
+          document.getElementById("levelupMsg").textContent = "";
+        }, 2000);
+      }
+
+      localStorage.setItem("xp", xp);
+      localStorage.setItem("level", level);
+
+      renderStats();
+    }
+
+    function createTracker() {
+      days.forEach((day, dIndex) => {
+        const div = document.createElement("div");
+        div.className = "day";
+        div.innerHTML = "<strong>" + day + "</strong>";
+
+        tasks.forEach((task, tIndex) => {
+          const id = `d${dIndex}_t${tIndex}`;
+          const checked = localStorage.getItem(id) === "true";
+
+          const label = document.createElement("label");
+          label.innerHTML = `<input type="checkbox" ${checked ? "checked" : ""}> ${task.name} (+${task.xp} XP)`;
+
+          const checkbox = label.querySelector("input");
+
+          checkbox.addEventListener("change", (e) => {
+            localStorage.setItem(id, e.target.checked);
+
+            if (e.target.checked) {
+              gainXP(task.xp);
+            } else {
+              xp -= task.xp;
+              localStorage.setItem("xp", xp);
+            }
+
+            updateStreak();
+            renderStats();
+          });
+
+          div.appendChild(label);
+        });
+
+        tracker.appendChild(div);
+      });
+    }
+
+    function updateStreak() {
+      let today = new Date().getDay();
+      let done = false;
+
+      tasks.forEach((_, tIndex) => {
+        if (localStorage.getItem(`d${today}_t${tIndex}`) === "true") {
+          done = true;
+        }
+      });
+
+      if (done) {
+        streak++;
+      } else {
+        streak = 0;
+      }
+
+      localStorage.setItem("streak", streak);
+    }
+
+    function resetAll() {
+      if (confirm("Reset totale?")) {
+        localStorage.clear();
+        location.reload();
+      }
+    }
+
+    createTracker();
+    renderStats();
+  </script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js');
+    }
+  </script>
+</body>
+
+</html>

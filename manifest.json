@@ -1,0 +1,20 @@
+{
+  "name": "Fitness Game",
+  "short_name": "FitnessGame",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#fff0f6",
+  "theme_color": "#ff4d8d",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
