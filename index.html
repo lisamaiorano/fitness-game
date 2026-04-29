@@ -4,78 +4,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Fitness Game</title>
-    <link rel="manifest" href="manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="app-container">
-        <header class="header">
-            <div class="avatar-container">
-                <div class="avatar">👧🏻</div>
-            </div>
-            <div class="greeting">
-                <h1>Ciao, Campionessa! 💖</h1>
-                <p>Sei incredibile! Continua così!</p>
-            </div>
-        </header>
-
-        <main class="dashboard">
-            <div class="card level-card gradient-bg">
-                <div class="level-badge">
-                    <span>LIVELLO</span>
-                    <span class="level-num" id="ui-level">1</span>
-                </div>
-                <div class="xp-info">
-                    <p class="xp-text">XP ATTUALI</p>
-                    <h2 id="ui-xp-text">0 / 100 XP</h2>
-                    <div class="progress-bar-container">
-                        <div class="progress-bar" id="ui-progress"></div>
-                    </div>
-                    <p class="xp-subtext" id="ui-next-level">Prossimo livello: 100 XP</p>
-                </div>
-            </div>
-
-            <div class="stats-grid">
-                <div class="card stat-card">
-                    <div class="stat-icon">🔥</div>
-                    <p class="stat-label">STREAK</p>
-                    <h3 id="ui-streak">0</h3>
-                    <p class="stat-subtext">giorni</p>
-                </div>
-                <div class="card stat-card">
-                    <div class="stat-icon">⭐</div>
-                    <p class="stat-label">XP TOTALI</p>
-                    <h3 id="ui-total-xp">0</h3>
-                </div>
-                <div class="card stat-card">
-                    <div class="stat-icon">🏆</div>
-                    <p class="stat-label">OBIETTIVO</p>
-                    <h3>-5 KG</h3>
-                    <p class="stat-subtext">entro il 1 Luglio</p>
-                </div>
-            </div>
-
-            <div class="card goal-progress">
-                <p>Sei al 0% verso il tuo obiettivo! <span class="apple-mascot">🍎</span></p>
-                <div class="progress-bar-container pink">
-                    <div class="progress-bar" style="width: 0%"></div>
-                </div>
-            </div>
-
-            <div class="missions-section">
-                <h3>MISSIONI GIORNALIERE</h3>
-                <p class="subtitle">Completa le attività e guadagna XP!</p>
+        
+        <section id="view-home" class="page-section active">
+            <header class="header">
+                <div class="avatar-container" onclick="setupCloud()" style="cursor: pointer;" title="Impostazioni Segrete"><div class="avatar">👧🏻</div></div>
                 
-                <ul class="task-list" id="task-list">
-                    </ul>
-            </div>
-        </main>
+                <div class="greeting">
+                    <h1>Ciao, Campionessa! 💖</h1>
+                    <p>Sei incredibile! Continua così!</p>
+                </div>
+                
+                <div class="cloud-sync">
+                    <button id="sync-btn" onclick="saveToCloud()">☁️ Sincronizza</button>
+                </div>
+            </header>
+
+            <main class="dashboard">
+                <div class="card level-card">
+                    <div class="level-badge"><span>LIVELLO</span><span class="level-num" id="ui-level">1</span></div>
+                    <div class="xp-info">
+                        <p class="xp-text">XP ATTUALI</p>
+                        <h2 id="ui-xp-text">0 / 100 XP</h2>
+                        <div class="progress-bar-container"><div class="progress-bar" id="ui-progress"></div></div>
+                        <p class="xp-subtext" id="ui-next-level">Prossimo livello: 100 XP</p>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="card stat-card"><span class="stat-icon">🔥</span><p class="stat-label">STREAK</p><h3 id="ui-streak">0</h3><p class="stat-subtext">giorni</p></div>
+                    <div class="card stat-card"><span class="stat-icon">⭐</span><p class="stat-label">XP TOTALI</p><h3 id="ui-total-xp">0</h3></div>
+                    <div class="card stat-card"><span class="stat-icon">🏆</span><p class="stat-label">OBIETTIVO</p><h3>-5 KG</h3><p class="stat-subtext">entro 1 Luglio</p></div>
+                </div>
+
+                <div class="missions-section">
+                    <h3>MISSIONI DI OGGI (<span id="ui-today-name">LUN</span>)</h3>
+                    <ul class="task-list" id="task-list">
+                        </ul>
+                </div>
+            </main>
+        </section>
+
+        <section id="view-week" class="page-section">
+            <header class="header-week">
+                <h2>LA MIA SETTIMANA</h2>
+            </header>
+            
+            <main class="dashboard">
+                <div class="week-selector" id="week-selector">
+                    <div class="day-tab" onclick="changeDay('LUN')">LUN</div>
+                    <div class="day-tab" onclick="changeDay('MAR')">MAR</div>
+                    <div class="day-tab" onclick="changeDay('MER')">MER</div>
+                    <div class="day-tab" onclick="changeDay('GIO')">GIO</div>
+                    <div class="day-tab" onclick="changeDay('VEN')">VEN</div>
+                    <div class="day-tab" onclick="changeDay('SAB')">SAB</div>
+                    <div class="day-tab" onclick="changeDay('DOM')">DOM</div>
+                </div>
+
+                <div class="card riepilogo-settimanale">
+                    <div class="riepilogo-info">
+                        <p>RIEPILOGO <span id="selected-day-name">LUNEDÌ</span></p>
+                        <h4 id="ui-completed-tasks">0 / 6</h4>
+                        <span>attività completate</span>
+                    </div>
+                    <div class="xp-circle">
+                        <span id="ui-day-xp">0</span>
+                        <p>XP</p>
+                    </div>
+                </div>
+
+                <div class="missions-section">
+                    <h3>OBIETTIVI COMPIUTI</h3>
+                    <ul class="task-list" id="week-task-list">
+                        </ul>
+                </div>
+            </main>
+        </section>
 
         <nav class="bottom-nav">
-            <div class="nav-item active">🏠<br>Home</div>
-            <div class="nav-item">📅<br>Settimana</div>
+            <div class="nav-item active" onclick="switchView('home', event)">🏠<br>Home</div>
+            <div class="nav-item" onclick="switchView('week', event)">📅<br>Settimana</div>
             <div class="nav-item add-btn"><div class="plus">+</div></div>
             <div class="nav-item">📊<br>Progressi</div>
             <div class="nav-item">🎯<br>Obiettivi</div>
@@ -83,11 +96,5 @@
     </div>
 
     <script src="app.js"></script>
-    <script>
-        // Register Service Worker for PWA
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('service-worker.js');
-        }
-    </script>
 </body>
 </html>
