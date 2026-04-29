@@ -1,0 +1,83 @@
+:root {
+    --bg-color: #ffdce8;
+    --card-bg: #ffffff;
+    --text-main: #5a3d4a;
+    --text-light: #947a86;
+    --pink-primary: #ff659c;
+    --pink-gradient: linear-gradient(135deg, #ff8eb8, #ff659c);
+    --gold-gradient: linear-gradient(135deg, #ffe066, #ffb347);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Nunito', sans-serif; }
+
+body { background-color: #f4f4f4; display: flex; justify-content: center; }
+
+.app-container {
+    width: 100%;
+    max-width: 400px; /* Simula schermo mobile */
+    background: linear-gradient(to bottom, #ff9abb, #ffeaf2);
+    min-height: 100vh;
+    position: relative;
+    padding-bottom: 80px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+/* Header */
+.header { padding: 30px 20px 20px; display: flex; align-items: center; gap: 15px; color: white; }
+.avatar-container { background: white; padding: 5px; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+.avatar { font-size: 30px; background: #e0f7fa; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; }
+.greeting h1 { font-size: 18px; font-weight: 800; margin-bottom: 2px; }
+.greeting p { font-size: 12px; opacity: 0.9; }
+
+/* Dashboard & Cards */
+.dashboard { padding: 0 20px; }
+.card { background: var(--card-bg); border-radius: 20px; padding: 15px; margin-bottom: 15px; box-shadow: 0 8px 15px rgba(255, 101, 156, 0.1); }
+
+/* Level Card */
+.level-card { display: flex; gap: 15px; align-items: center; background: rgba(255,255,255,0.6); backdrop-filter: blur(10px); border: 2px solid white; }
+.level-badge { background: var(--gold-gradient); color: white; border-radius: 15px; padding: 15px 10px; text-align: center; width: 80px; box-shadow: 0 4px 10px rgba(255, 179, 71, 0.4); }
+.level-badge span { display: block; font-size: 10px; font-weight: bold; }
+.level-badge .level-num { font-size: 32px; line-height: 1; margin-top: 5px; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
+.xp-info { flex: 1; color: var(--text-main); text-align: center; }
+.xp-text { font-size: 10px; font-weight: bold; letter-spacing: 1px; }
+.xp-info h2 { font-size: 16px; margin: 5px 0; }
+.progress-bar-container { background: #f0ecee; height: 10px; border-radius: 10px; overflow: hidden; margin-bottom: 5px; }
+.progress-bar { background: var(--pink-gradient); height: 100%; width: 50%; border-radius: 10px; transition: width 0.3s; }
+.xp-subtext { font-size: 10px; color: var(--text-light); }
+
+/* Stats Grid */
+.stats-grid { display: flex; gap: 10px; }
+.stat-card { flex: 1; text-align: center; padding: 15px 5px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.stat-icon { font-size: 24px; margin-bottom: 5px; }
+.stat-label { font-size: 9px; font-weight: 800; color: var(--text-main); margin-bottom: 5px; }
+.stat-card h3 { font-size: 18px; color: var(--text-main); margin-bottom: 2px; }
+.stat-subtext { font-size: 10px; color: var(--text-light); }
+
+/* Goal Progress */
+.goal-progress { background: #fffcf0; border: 2px solid white; text-align: center; color: var(--text-main); font-size: 12px; font-weight: bold; position: relative; }
+.goal-progress .progress-bar-container { margin-top: 10px; height: 12px; }
+.goal-progress .progress-bar { background: var(--pink-gradient); }
+.apple-mascot { position: absolute; right: 10px; top: -20px; font-size: 30px; animation: bounce 2s infinite; }
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+
+/* Missions */
+.missions-section { background: rgba(255,255,255,0.8); border-radius: 20px 20px 0 0; padding: 20px; margin: 0 -20px; min-height: 300px; }
+.missions-section h3 { color: var(--text-main); font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+.missions-section .subtitle { font-size: 12px; color: var(--text-light); margin-bottom: 15px; }
+
+.task-list { list-style: none; }
+.task-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed #f0ecee; }
+.task-left { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--text-main); font-weight: bold; }
+.task-icon { font-size: 20px; }
+.task-right { display: flex; align-items: center; gap: 10px; }
+.task-xp { color: var(--pink-primary); font-size: 12px; font-weight: bold; }
+.checkbox { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--pink-primary); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
+.checkbox.checked { background: var(--pink-primary); }
+.checkbox.checked::after { content: '✓'; color: white; font-size: 14px; font-weight: bold; }
+
+/* Bottom Nav */
+.bottom-nav { position: absolute; bottom: 0; left: 0; right: 0; background: white; border-radius: 20px 20px 0 0; display: flex; justify-content: space-around; padding: 15px 10px 20px; box-shadow: 0 -5px 15px rgba(0,0,0,0.05); }
+.nav-item { text-align: center; font-size: 10px; color: var(--text-light); cursor: pointer; }
+.nav-item.active { color: var(--pink-primary); font-weight: bold; }
+.add-btn { position: relative; top: -25px; }
+.plus { background: var(--gold-gradient); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; box-shadow: 0 4px 10px rgba(255, 179, 71, 0.4); border: 4px solid white; }

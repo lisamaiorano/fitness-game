@@ -1,19 +1,15 @@
 {
   "name": "Fitness Game",
-  "short_name": "FitnessGame",
-  "start_url": ".",
+  "short_name": "FitGame",
+  "start_url": "index.html",
   "display": "standalone",
-  "background_color": "#fff0f6",
-  "theme_color": "#ff4d8d",
+  "background_color": "#ffeaf2",
+  "theme_color": "#ff6b9e",
+  "orientation": "portrait-primary",
   "icons": [
     {
       "src": "icon.png",
       "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "icon.png",
-      "sizes": "512x512",
       "type": "image/png"
     }
   ]
